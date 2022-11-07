@@ -31,7 +31,7 @@ const Login = () => {
       const { data } = await axios.post(`/api/login`, { email, password })
       dispatch({type:"LOGIN",payload:data})
       window.localStorage.setItem('user',JSON.stringify(data))
-      router.push('/')
+      router.push('/user')
       toast.success('Please Login')
       setLoading(false)
     } catch (error) {

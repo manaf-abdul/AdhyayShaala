@@ -3,7 +3,7 @@ import { Menu } from 'antd'
 import Link from 'next/link'
 import axios from "axios"
 import { toast } from 'react-toastify'
-import { AppstoreAddOutlined, CoffeeOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons'
+import { AppstoreAddOutlined,CarryOutOutlined,TeamOutlined, CoffeeOutlined, LogoutOutlined, LoginOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Context } from '../context'
 import { useRouter } from 'next/router'
 
@@ -66,6 +66,30 @@ const TopNav = () => {
                     </Item>
                 </>
             )}
+
+            {user && user.role && user.role.includes("Instructor") ?
+                <Item
+                    key="/instructor/course/create"
+                    onClick={(e) => setCurrent(e.key)}
+                    icon={<CarryOutOutlined />}
+                >
+                    <Link legacyBehavior
+                        href='/instructor/course/create'>
+                        <a>Create Course</a>
+                    </Link>
+                </Item>
+                :
+                <Item
+                    key="/user/become-instructor"
+                    onClick={(e) => setCurrent(e.key)}
+                    icon={<TeamOutlined />}
+                >
+                    <Link legacyBehavior
+                        href='/user/become-instructor'>
+                        <a>Become Instructor</a>
+                    </Link>
+                </Item>
+                }
             {user !== null && (
                 <SubMenu
                     icon={<CoffeeOutlined />}

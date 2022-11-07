@@ -55,7 +55,6 @@ export const currentUser=async(req,res)=>{
     console.log(req.user)
     try {
         const user=await User.findById(req.user).select('-password').exec()
-        console.log("suer",user);
         return res.json({ok:true})
     } catch (error) {
         console.log(error);
