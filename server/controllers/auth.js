@@ -61,3 +61,18 @@ export const currentUser=async(req,res)=>{
         return res.status(400).send("Error,currentUser")
     }
 }
+
+export const currentInstructor=async(req,res)=>{
+    console.log(req.user)
+    try {
+        const user=await User.findById(req.user).select('-password').exec()
+        if(!user.role.includes('Instructor')){
+            return res.sendStatus(403)
+        }else{
+            return res.json({ok:true})
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(400).send("Error,currentUser")
+    }
+}
