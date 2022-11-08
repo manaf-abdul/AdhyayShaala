@@ -30,7 +30,7 @@ const TopNav = () => {
     }
 
     return (
-        <Menu mode='horizontal' selectedKeys={[current]}>
+        <Menu mode='horizontal' selectedKeys={[current]} >
             {/* <div className='flex-box d-flex justify-content-end'> */}
             <Item
                 key="/"
@@ -95,8 +95,9 @@ const TopNav = () => {
                     icon={<CoffeeOutlined />}
                     title={user && user.name}
                     className="float-right"
-                >
-                    <ItemGroup>
+                    style={{position: "absolute",right: "2rem"}}
+                > 
+                    <ItemGroup className='float-right'>
                         <Item
                             key="/user"
                             onClick={(e) => setCurrent(e.key)}
