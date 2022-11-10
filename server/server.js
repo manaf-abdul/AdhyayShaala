@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE)
 
 //apply middleware
 app.use(cors())
-app.use(express.json({limit:'10mb'}))
+app.use(express.json({limit:'1gb'}))
 app.use(cookieParser())
 app.use(morgan("dev"))
 
