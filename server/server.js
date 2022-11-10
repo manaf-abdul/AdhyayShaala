@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE)
 
 //apply middleware
 app.use(cors())
-app.use(express.json())
+app.use(express.json({limit:'10mb'}))
 app.use(cookieParser())
 app.use(morgan("dev"))
 
@@ -29,13 +29,14 @@ app.use(morgan("dev"))
 readdirSync("./routes").map((r) =>
     app.use("/api", require(`./routes/${r}`))
 )
+// app.use('/api/course',CourseRoutes )
 
 //csrf
-app.use(csrfProtection)
+// app.use(csrfProtection)
 
-app.get('/api/csrf-token', (req, res) => {
-    res.json({ csrfToken: req.csrfToken() })
-})
+// app.get('/api/csrf-token', (req, res) => {
+//     res.json({ csrfToken: req.csrfToken() })
+// })
 
 const PORT = process.env.PORT || 8000
 app.listen(PORT, () => console.log(`Server started in ${PORT}`))

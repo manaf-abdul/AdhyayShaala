@@ -72,7 +72,7 @@ const Provider = ({ children }) => {
     }
     
     useEffect(() => {
-        getCsrfToken()
+        // getCsrfToken()
     }, [])
 
     return (

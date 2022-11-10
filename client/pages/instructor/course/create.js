@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react'
 import CourseCreateForm from '../../../components/forms/courseCreateFrom'
 import Resizer from 'react-image-file-resizer'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 
 const CourseCreate = () => {
+  const router=useRouter()
   const [preview, setPreview] = useState("")
   const [uploadButtonText, setUploadButtonText] = useState("Upload Image")
 
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState({})
   const [values, setValues] = useState({
     name: "",
     description: "",
@@ -36,10 +38,10 @@ const CourseCreate = () => {
           image: uri
         })
         console.log("response",data)
+        setImage(data)
         setValues({ ...values, loading: false })
       } catch (error) {
         console.log(error);
-
         setValues({ ...values, loading: false })
         toast("Failed")
       }
@@ -47,9 +49,33 @@ const CourseCreate = () => {
 
   }
 
-  const handleSubmit = e => {
+  const handleImageRemove = async() => {
+    try {
+      setValues({ ...values, loading: true })
+      const res = await axios.post('/api/course/remove-image',{image})
+      setImage()
+      setPreview()
+      setUploadButtonText("Upload Image")
+      setValues({ ...values, loading: false })
+     } catch (error) {
+      console.log(error);
+      setValues({ ...values, loading: false })
+      toast("Failed")
+     }
+  }
+
+  const handleSubmit = async(e) => {
     e.preventDefault()
-    console.log(values);
+   try {
+    const {data}=await axios.post('/api/course',{
+      ...values,
+      image
+    })
+    toast("Great Now You Can Start Adding Lessons")
+    router.push('/instructor')
+   } catch (error) {
+    toast.error(err.response.data)
+   }
   }
 
   return (
@@ -64,6 +90,7 @@ const CourseCreate = () => {
           setValues={setValues}
           preview={preview}
           uploadButtonText={uploadButtonText}
+          handleImageRemove={handleImageRemove}
         />
       </div>
     </InstructorRoute>

@@ -1,5 +1,6 @@
 import { expressjwt } from 'express-jwt'
 import jwt from 'jsonwebtoken'
+import User from '../models/user'
 
 // export const requireSignIn=expressjwt({
 //     getToken:(req,res)=>req.cookies.token,
@@ -18,5 +19,18 @@ export const requireSignIn = (req, res, next) => {
     }else{
         res.send(401).json({message:"Access Denied"})
     }
+}
 
+export const isInstructor = async(req, res, next) => {
+    // console.log(req.user)
+    try {
+        const user=await User.findById(req.user).exec()
+        if(!user.role.includes("Instructor")){
+            return res.sendStatus(403)
+        }else{
+            next()
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
