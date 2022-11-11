@@ -109,7 +109,7 @@ export const read = async (req, res) => {
   
       // video params
       const params = {
-        Bucket: process.env.BUCKET_NAME,
+        Bucket: process.env.BUCKET_NAME  ,
         Key: `${nanoid()}.${video.type.split("/")[1]}`,
         Body: readFileSync(video.path),
         ACL: "public-read",
@@ -129,3 +129,29 @@ export const read = async (req, res) => {
       console.log("err catch",err,"err catch");
     }
   };
+
+
+export const removeVideo = async (req, res) => {
+  try {
+    const { Bucket, Key } = req.body;
+    // console.log("VIDEO REMOVE =====> ", req.body);
+
+    // video params
+    const params = {
+      Bucket,
+      Key,
+    };
+
+    // upload to s3
+    S3.deleteObject(params, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(400);
+      }
+      console.log(data);
+      res.send({ ok: true });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
