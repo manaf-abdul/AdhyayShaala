@@ -31,7 +31,6 @@ const Index = ({ results }) => {
                                     </Link>
                                 </h1>
                             )) : ""}
-
                         </Card>
                     </div>
                     <div className='col-md-4'>
